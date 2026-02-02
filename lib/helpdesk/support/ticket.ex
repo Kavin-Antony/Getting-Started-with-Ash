@@ -14,6 +14,17 @@ defmodule Helpdesk.Support.Ticket do
     create :open do
       accept [:subject]
     end
+
+    update :close do
+      accept []
+
+      validate attributes_does_not_equal(:status, :closed) do
+        message "Ticket is already closed"
+      end
+
+      change set_attribute(:status, :closed)
+    end
+
   end
 
   # Attributes are the simple pieces of data that exist on your resource
