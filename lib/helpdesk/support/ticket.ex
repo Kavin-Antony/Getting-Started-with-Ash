@@ -10,6 +10,10 @@ defmodule Helpdesk.Support.Ticket do
 
     # and a create action, which we'll customize later
     create :create
+
+    create :open do
+      accept [:subject]
+    end
   end
 
   # Attributes are the simple pieces of data that exist on your resource
@@ -18,6 +22,16 @@ defmodule Helpdesk.Support.Ticket do
     uuid_primary_key :id
 
     # Add a string type attribute called `:subject`
-    attribute :subject, :string 
+    attribute :subject, :string do
+      allow_nil? false
+
+      public? true
+    end
+
+    attribute :status, :atom do
+      constraints [one_of: [:open, :closed]]
+      default :open
+      allow_nil? false
+    end
   end
 end
