@@ -55,6 +55,6 @@ defmodule Helpdesk.Support.Ticket do
   end
 
   relationships do
-    belongs_to :representative, Helpdesk.Support.Respresentative
+    belongs_to :representative, Helpdesk.Support.Representative
   end
 end

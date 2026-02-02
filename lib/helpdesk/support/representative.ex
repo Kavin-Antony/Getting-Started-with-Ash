@@ -1,9 +1,9 @@
 defmodule Helpdesk.Support.Representative do
   use Ash.Resource,
-    domain: helpdesk.Support,
+    domain: Helpdesk.Support,
     data_layer: Ash.DataLayer.Ets
 
-  action do
+  actions do
     defaults [:read]
 
     create :create do
@@ -20,6 +20,6 @@ defmodule Helpdesk.Support.Representative do
   end
 
   relationships do
-    has_many :tickets, Helpdesk.Support.Ticker
+    has_many :tickets, Helpdesk.Support.Ticket
   end
 end
