@@ -2,7 +2,9 @@
 
 defmodule Helpdesk.Support.Ticket do
   # This turns this module into a resource
-  use Ash.Resource, domain: Helpdesk.Support
+  use Ash.Resource,
+    domain: Helpdesk.Support,
+    data_layer: Ash.DataLayer.Ets
 
   actions do
     # Use the default implementation of the :read action
@@ -18,7 +20,7 @@ defmodule Helpdesk.Support.Ticket do
     update :close do
       accept []
 
-      validate attributes_does_not_equal(:status, :closed) do
+      validate attribute_does_not_equal(:status, :closed) do
         message "Ticket is already closed"
       end
 
