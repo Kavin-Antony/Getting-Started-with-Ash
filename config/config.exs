@@ -2,6 +2,32 @@ import Config
 
 config :helpdesk, :ash_domains, [Helpdesk.Support]
 
+config :helpdesk,
+  ecto_repos: [Helpdesk.Repo],
+  generators: [timestamp_type: :utc_datetime]
+
+config :helpdesk, HelpdeskWeb.Endpoint,
+  url: [host: "localhost"],
+  adapter: Phoenix.Endpoint.Cowboy2Adapter,
+  render_errors: [
+    formats: [html: HelpdeskWeb.ErrorHTML, json: HelpdeskWeb.ErrorJSON],
+    layout: false
+  ],
+  pubsub_server: Helpdesk.PubSub,
+  live_view: [signing_salt: "CHANGE_ME_IN_PROD"]
+
+config :phoenix, :json_library, Jason
+
+config :esbuild,
+  version: "0.17.11",
+  helpdesk: [
+    args:
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
+  ]
+
+
 config :ash,
   allow_forbidden_field_for_relationships_by_default?: true,
   include_embedded_source_by_default?: false,
